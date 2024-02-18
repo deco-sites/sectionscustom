@@ -109,5 +109,15 @@
 		<path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path><path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path><path d="M8.7 10.7l6.6 -3.4"></path>
 		<path d="M8.7 13.3l6.6 3.4"></path>
     </symbol>
+	<symbol id="ArrowRigth" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+	<path d="m25.204 16-6.37 9.555a1 1 0 0 1-1.664-1.11L22.133 17H7.998a1 1 0 0 1 0-2h14.135L17.17 7.555a1 1 0 0 1 1.664-1.11Z" fill="#ffffff" class="fill-231f20"></path>
+	</symbol>
+	<symbol id="ArrowDown" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+	<path d="m396.6 160 19.4 20.7L256 352 96 180.7l19.3-20.7L256 310.5z" fill="#ffffff" class="fill-000000"></path>
+	</symbol>
+	<symbol id="PlusDeco" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+	<path d="M417.4 224H288V94.6c0-16.9-14.3-30.6-32-30.6s-32 13.7-32 30.6V224H94.6C77.7 224 64 238.3 64 256s13.7 32 30.6 32H224v129.4c0 16.9 14.3 30.6 32 30.6s32-13.7 32-30.6V288h129.4c16.9 0 30.6-14.3 30.6-32s-13.7-32-30.6-32z" fill="#02f67c" class="fill-000000"></path></svg>
+	</symbol>
+
 
 </svg>
