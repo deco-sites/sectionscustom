@@ -1,6 +1,6 @@
-import ButtonTab from "../../islands/buttonsControl/ButtonTab.tsx";
-import Article from "../../islands/buttonsControl/Article.tsx";
-import ButtonLink from "./ButtonLink.tsx";
+import ButtonTab from "$store/islands/ButtonsControl/ButtonTab.tsx";
+import Article from "$store/islands/ButtonsControl/Article.tsx";
+import ButtonLink from "$store/components/newSections/ButtonLink.tsx";
 
 interface Content {
   title: string;
