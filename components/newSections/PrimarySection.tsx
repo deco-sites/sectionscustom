@@ -1,4 +1,4 @@
-import Article from "$store/islands/ButtonsControl/Article.tsx";
+import Article from "$store/islands/Article.tsx";
 import ButtonLink from "$store/components/newSections/ButtonLink.tsx";
 
 interface Content {
