@@ -9,7 +9,7 @@ const displayCart = signal(false);
 const displayMenu = signal(false);
 const displaySearchPopup = signal(false);
 const displaySearchDrawer = signal(false);
-const showArticle = signal("11");
+const showArticle = signal("00");
 
 const state = {
   displayCart,
