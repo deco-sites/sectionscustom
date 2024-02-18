@@ -1,8 +1,8 @@
 import { useUI } from "$store/sdk/useUI.ts";
 import { useSignal } from "@preact/signals";
-import Icon from "../../ui/Icon.tsx";
-import FlagTime from "../FlagTime/FlagTime.tsx";
-import { ItemsTopic } from "../PrimarySection.tsx";
+import Icon from "$store/components/ui/Icon.tsx";
+import FlagTime from "$store/components/newSections/FlagTime/FlagTime.tsx";
+import type { ItemsTopic } from "$store/components/newSections/PrimarySection.tsx";
 
 export interface Props extends ItemsTopic {
   index: string;
