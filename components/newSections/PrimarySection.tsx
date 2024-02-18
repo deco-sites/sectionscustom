@@ -1,3 +1,4 @@
+import ButtonTab from "$store/islands/ButtonTab.tsx";
 import Article from "$store/islands/Article.tsx";
 import ButtonLink from "$store/components/newSections/ButtonLink.tsx";
 
@@ -277,6 +278,12 @@ export default function PrimarySection({ props }: { props: Props }) {
                   <span class="lg:hidden">{indexTopic + 1 + ". "}</span>
                   {topic.title}
                 </h3>
+                {topic.itemsTopics.map((itemTopic, index) => (
+                  <ButtonTab
+                    {...itemTopic}
+                    index={index.toString() + indexTopic.toString()}
+                  />
+                ))}
                 {topics.length === (indexTopic + 1) && props.button?.label && (
                   <ButtonLink
                     classCustom="lg:hidden flex"
