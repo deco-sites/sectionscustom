@@ -1,8 +1,8 @@
 import { useUI } from "$store/sdk/useUI.ts";
-import Icon from "../../ui/Icon.tsx";
-import FlagTime from "../FlagTime/FlagTime.tsx";
+import Icon from "$store/components/ui/Icon.tsx";
+import FlagTime from "$store/components/newSections/FlagTime/FlagTime.tsx";
 import type { ItemsTopic } from "$store/components/newSections/PrimarySection.tsx";
-import ButtonLink from "../ButtonLink.tsx";
+
 
 export interface Props extends ItemsTopic {
   index: string;
@@ -13,11 +13,10 @@ export default function Article({ props }: { props: Props }) {
 
   return (
     <div
-      class={`gap-6 flex flex-col justify-start relative ease-in duration-300 ${
-        showArticle.value === props.index
+      class={`gap-6 flex flex-col justify-start relative ease-in duration-300 ${showArticle.value === props.index
           ? "visible opacity-100 h-full"
           : "invisible opacity-0 "
-      }`}
+        }`}
     >
       {showArticle.value === props.index &&
         (
