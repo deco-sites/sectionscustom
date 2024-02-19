@@ -1,1 +1,4 @@
-export { default } from "$store/components/newSections/SecondSection.tsx";
+export {
+  default,
+  loader,
+} from "$store/components/newSections/SecondSection.tsx";
