@@ -49,7 +49,8 @@ export type AvailableIcons =
   | "share"
   | "PlusDeco"
   | "ArrowDown"
-  | "ArrowRigth";
+  | "ArrowRigth"
+  | "DecoGreen";
 
 interface Props extends JSX.SVGAttributes<SVGSVGElement> {
   /**
