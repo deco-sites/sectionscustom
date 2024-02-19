@@ -17,18 +17,15 @@ export default function Member({ name, img, timestamp, flag }: Props) {
   // Obtém a hora
   const hora = dataHoraObj.toISOString().split("T")[1].split(".")[0];
 
-  console.log("Data:", data);
-  console.log("Hora:", hora);
-
   return (
-    <div class="flex flex-row justify-start items-center w-full">
-      <Image src={img} width={30} height={30} />
+    <div class="flex flex-row justify-start gap-2 items-center w-full">
+      <Image src={img} width={40} height={40} class="rounded-full" />
       <div class="flex flex-row gap-2">
-        <span>
+        <span class="text-white font-bold text-xl leading-3">
           {name}
         </span>
         <Image src={flag} width={8} height={8} />
-        <span>
+        <span class="text-[#A1A1AA] text-sm font-normal">
           {data.replaceAll("-", "/")} - {hora}
         </span>
       </div>
