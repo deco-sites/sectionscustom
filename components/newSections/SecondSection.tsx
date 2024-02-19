@@ -16,17 +16,18 @@ export interface Props {
     title: string;
     buttonLabel: string;
     buttonHref: string;
-  }
+  };
   posts: {
     title: string;
     buttonLabel: string;
     buttonHref: string;
-  }
+  };
 }
 
 const BASE_PROPS = {
   title: "Growing community",
-  subTitle: "<p>Unlock advanced audience insights and comprehensive&nbsp;<br>system observability for optimal perfomance</p>",
+  subTitle:
+    "<p>Unlock advanced audience insights and comprehensive&nbsp;<br>system observability for optimal perfomance</p>",
   graph: {
     title: "Community members",
     buttonLabel: "Join",
@@ -35,13 +36,12 @@ const BASE_PROPS = {
   posts: {
     title: "Latest Posts",
     buttonLabel: "Join our discord server",
-    buttonHref: "#"
-  }
-}
+    buttonHref: "#",
+  },
+};
 
 export default function PrimarySection({ props }: { props: Props }) {
-
-  const { title, subTitle, graph, posts } = { ...BASE_PROPS, ...props }
+  const { title, subTitle, graph, posts } = { ...BASE_PROPS, ...props };
 
   return (
     <div class="container max-w-[1280px] mx-auto flex justify-center flex-col w-full py-6 rounded-3xl px-4">
@@ -58,7 +58,9 @@ export default function PrimarySection({ props }: { props: Props }) {
           <div class="flex flex-row justify-between items-center bg-[#000D0D] rounded-2xl py-2 px-4">
             <span class="flex flex-row gap-2 justify-center">
               <Icon id="DecoGreen" size={32} />
-              <h4 class="text-white font-light text-2xl text-start">{graph.title}</h4>
+              <h4 class="text-white font-light text-2xl text-start">
+                {graph.title}
+              </h4>
             </span>
             <ButtonLink label={graph.buttonLabel} href={graph.buttonHref} />
           </div>
@@ -68,7 +70,6 @@ export default function PrimarySection({ props }: { props: Props }) {
           </div>
         </div>
         <div class="flex w-[40%] h-ful flex-row justify-between items-center bg-[#000D0D] rounded-2xl py-2 px-4">
-
         </div>
       </div>
     </div>
