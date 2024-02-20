@@ -177,7 +177,8 @@ export default function PrimarySection(
           <h4 class="text-white text-2xl text-start font-semibold">
             {posts.title}
           </h4>
-          <div class="flex flex-col gap-2 pr-4 justify-start items-start bg-gradient-to-b from-[rgba(2, 246, 124, 0)] to-[rgba(2, 246, 124, 0.05)] overflow-y-scroll"
+          <div
+            class="flex flex-col gap-2 pr-4 justify-start items-start bg-gradient-to-b from-[rgba(2, 246, 124, 0)] to-[rgba(2, 246, 124, 0.05)] overflow-y-scroll"
             style={"::-webkit-scrollbar-thumb: {background-color: red;}"}
           >
             {chat.map((chat) => (
@@ -188,7 +189,11 @@ export default function PrimarySection(
                   flag={""}
                   timestamp={chat.timestamp}
                 />
-                <Message content={chat.content || ""} embeds={chat.embeds} attachments={chat.attachments} />
+                <Message
+                  content={chat.content || ""}
+                  embeds={chat.embeds}
+                  attachments={chat.attachments}
+                />
               </>
             ))}
           </div>
@@ -196,7 +201,11 @@ export default function PrimarySection(
             /* // <span class="text-white" dangerouslySetInnerHTML={{ __html: chat.content?.replaceAll("\n", "<br>") || "undefined" }}>
             // </span> */
           }
-          <ButtonLink label={posts.buttonLabel} href={posts.buttonHref} classCustom="my-2" />
+          <ButtonLink
+            label={posts.buttonLabel}
+            href={posts.buttonHref}
+            classCustom="my-2"
+          />
         </div>
       </div>
     </div>
