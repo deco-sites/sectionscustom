@@ -6,6 +6,7 @@ import Button from "../ui/Button.tsx";
 import Icon from "../ui/Icon.tsx";
 import type { SectionProps } from "deco/mod.ts";
 import Member from "./Posts/Member.tsx";
+import Message from "./Posts/Message.tsx";
 
 export interface Props {
   title: string;
@@ -27,51 +28,56 @@ export interface Props {
   };
 }
 
+export interface Embed {
+  type: string;
+  url: string;
+  title: string;
+  description: string;
+  color: number;
+  author: {
+    name: string;
+    url: string;
+  };
+  provider: {
+    name: string;
+    url: string;
+  };
+  thumbnail: {
+    url: string;
+    proxy_url: string;
+    placeholder: string;
+  };
+  video: {
+    url: string;
+    placeholder: string;
+  };
+  mentions: {
+    id: string;
+    username: string;
+    avatar: string;
+  };
+}
+
+export interface Attachment {
+  id: string;
+  filename: string;
+  url: string;
+  proxy_url: string;
+  content_type: string;
+  placeholder: string;
+}
 interface Menssage {
   id: string;
   author: {
     id: string;
     username: string;
     avatar?: string;
+    global_name: string;
   };
   content: string;
   timestamp: string;
-  embeds: {
-    type: string;
-    url: string;
-    title: string;
-    description: string;
-    color: number;
-    author: {
-      name: string;
-      url: string;
-    };
-    provider: {
-      name: string;
-      url: string;
-    };
-    thumbnai: {
-      url: string;
-      proxy_url: string;
-    };
-    video: {
-      url: string;
-      placeholder: string;
-    };
-    mentions: {
-      id: string;
-      username: string;
-      avatar: string;
-    };
-  }[];
-  attachments: {
-    id: string;
-    filename: string;
-    url: string;
-    proxy_url: string;
-    content_type: string;
-    placeholder: string;
-  }[];
+  embeds: Embed[];
+  attachments: Attachment[];
 }
 
 interface Chat {
@@ -81,6 +87,8 @@ interface Chat {
   content?: string;
   timestamp: string;
   image: string;
+  embeds?: Embed[];
+  attachments?: Attachment[];
 }
 
 const BASE_PROPS = {
@@ -107,7 +115,7 @@ export async function loader({ props }: { props: Props }, _req: Request) {
 
   const chat: Chat[] = [];
 
-  const response = await fetch(apiUrlMessages + "?limit=3", {
+  const response = await fetch(apiUrlMessages + "?limit=10", {
     method: "GET",
     headers: {
       Authorization: `Bot ${token}`,
@@ -122,10 +130,12 @@ export async function loader({ props }: { props: Props }, _req: Request) {
 
     chat.push({
       id: r.id,
-      name: r.author.username,
+      name: r.author.global_name,
       content: r.content,
       timestamp: r.timestamp,
       image: urlImage,
+      embeds: r.embeds,
+      attachments: r.attachments,
     });
   });
 
@@ -163,24 +173,30 @@ export default function PrimarySection(
             <Graph />
           </div>
         </div>
-        <div class="flex w-[40%] h-ful flex-col gap-2 items-start justify-start  bg-[#000D0D] rounded-2xl py-2 px-4">
+        <div class="flex w-[40%] h-ful flex-col gap-2 items-start justify-start  bg-[#000D0D] rounded-2xl py-2 px-4 max-h-[500px]">
           <h4 class="text-white text-2xl text-start font-semibold">
             {posts.title}
           </h4>
-          <div class="flex flex-col gap-2 justify-start items-start">
+          <div class="flex flex-col gap-2 pr-4 justify-start items-start bg-gradient-to-b from-[rgba(2, 246, 124, 0)] to-[rgba(2, 246, 124, 0.05)] overflow-y-scroll"
+            style={"::-webkit-scrollbar-thumb: {background-color: red;}"}
+          >
             {chat.map((chat) => (
-              <Member
-                name={chat.name}
-                img={chat.image}
-                flag={""}
-                timestamp={chat.timestamp}
-              />
+              <>
+                <Member
+                  name={chat.name}
+                  img={chat.image}
+                  flag={""}
+                  timestamp={chat.timestamp}
+                />
+                <Message content={chat.content || ""} embeds={chat.embeds} attachments={chat.attachments} />
+              </>
             ))}
           </div>
           {
             /* // <span class="text-white" dangerouslySetInnerHTML={{ __html: chat.content?.replaceAll("\n", "<br>") || "undefined" }}>
             // </span> */
           }
+          <ButtonLink label={posts.buttonLabel} href={posts.buttonHref} classCustom="my-2" />
         </div>
       </div>
     </div>

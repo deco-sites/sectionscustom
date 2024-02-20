@@ -12,10 +12,17 @@ export default function Member({ name, img, timestamp, flag }: Props) {
   const dataHoraObj = new Date(dataHoraString);
 
   // Obtém a data
-  const data = dataHoraObj.toISOString().split("T")[0];
+  const day = dataHoraObj.getDay() < 10 ? "0" + dataHoraObj.getDay().toString() : dataHoraObj.getDay();
+  const month = dataHoraObj.getMonth() < 10 ? "0" + (dataHoraObj.getMonth() + 1) : (dataHoraObj.getMonth() + 1);
+  const year = dataHoraObj.getFullYear()
 
   // Obtém a hora
-  const hora = dataHoraObj.toISOString().split("T")[1].split(".")[0];
+  let hour: number = dataHoraObj.getHours()
+  const min = dataHoraObj.getMinutes()
+  const ampm = hour < 12 ? "AM" : "PM"
+
+  hour = hour % 12
+  hour = hour ? hour : 12
 
   return (
     <div class="flex flex-row justify-start gap-2 items-center w-full">
@@ -26,7 +33,7 @@ export default function Member({ name, img, timestamp, flag }: Props) {
         </span>
         <Image src={flag} width={8} height={8} />
         <span class="text-[#A1A1AA] text-sm font-normal">
-          {data.replaceAll("-", "/")} - {hora}
+          {day + "/" + month + "/" + year} {hour + ":" + min + " " + ampm}
         </span>
       </div>
     </div>
