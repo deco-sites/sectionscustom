@@ -68,6 +68,7 @@ export interface Attachment {
 }
 interface Menssage {
   id: string;
+  type: number;
   author: {
     id: string;
     username: string;
@@ -130,28 +131,45 @@ export async function loader({ props }: { props: Props }, _req: Request) {
     },
   }).then((r) => r.json());
 
+  console.log("chat", response)
+
   // console.log("res", response);
   response.map((r: Menssage) => {
     const urlImage = r.author.avatar
       ? `https://cdn.discordapp.com/avatars/${r.author.id}/${r.author.avatar}.webp`
       : "https://discord.com/assets/1697e65656e69f0dbdbd.png";
 
-    chat.push({
-      id: r.id,
-      name: r.author.global_name,
-      content: r.content,
-      timestamp: r.timestamp,
-      image: urlImage,
-      embeds: r.embeds,
-      attachments: r.attachments,
-    });
+    if (r.type !== 18) {
+      chat.push({
+        id: r.id,
+        name: r.author.global_name,
+        content: r.content,
+        timestamp: r.timestamp,
+        image: urlImage,
+        embeds: r.embeds,
+        attachments: r.attachments,
+      });
+    }
   });
+
+  interface MemberGuid {
+    user: { id: string };
+    joined_at: string; // Certifique-se de que joined_at seja do tipo string
+  }
 
   const apiUrl = `https://discord.com/api/guilds/${server}/members`;
 
   const allMembers: Array<MemberGuid> = [];
   let hasMore = true;
-  let after: string | null = null; // Inicialize como string | null
+  let after: string | null = null;
+  let totalMembers = 0;
+
+  const membersByMonth: { [month: string]: { count: number; total: number } } = {};
+  let sortedMembersByMonth: {
+    month: string;
+    count: number;
+    total: number;
+  }[] = [];
 
   try {
     while (hasMore) {
@@ -165,12 +183,16 @@ export async function loader({ props }: { props: Props }, _req: Request) {
         },
       ).then((r) => r.json());
 
-      if (responseM) {
+      if (responseM && responseM.length > 0) {
         responseM.forEach((member: MemberGuid) => {
           allMembers.push({
             user: { id: member.user.id },
             joined_at: member.joined_at,
           });
+          const joinedDate = new Date(member.joined_at);
+          if (joinedDate.getFullYear() >= 2023) {
+            totalMembers++;
+          }
         });
 
         if (responseM.length < 1000) {
@@ -183,18 +205,53 @@ export async function loader({ props }: { props: Props }, _req: Request) {
       }
     }
 
-    console.log("Todos os membros:", allMembers.length);
+
+    // Agrupar membros por mês
+    allMembers.forEach((member, index) => {
+      const joinedDate = new Date(member.joined_at);
+      const year = joinedDate.getFullYear();
+
+      if (year >= 2023) {
+        const monthKey = `${year}-${joinedDate.getMonth() + 1}`;
+
+        totalMembers--;
+
+        console.log("total", totalMembers)
+        console.log("total", allMembers.length)
+
+        if (membersByMonth[monthKey]) {
+          membersByMonth[monthKey].count++;
+          membersByMonth[monthKey].total = allMembers.length - totalMembers;
+        } else {
+          membersByMonth[monthKey] = { count: 1, total: (totalMembers - allMembers.length) };
+        }
+      }
+    });
+
+    // Converter o objeto para um array de objetos
+    sortedMembersByMonth = Object.keys(membersByMonth).map((key) => ({
+      month: key,
+      count: membersByMonth[key].count,
+      total: membersByMonth[key].total,
+    }));
+
+    // Ordenar o array por data
+    sortedMembersByMonth.sort((a, b) => new Date(a.month).getTime() - new Date(b.month).getTime());
+
+    console.log("Quantidade de membros por mês em ordem reversa desde 2023:", sortedMembersByMonth);
   } catch (error) {
     console.error("Erro na requisição:", error);
   }
 
-  return { chat, ...props };
+  console.log("member", sortedMembersByMonth);
+
+  return { chat, sortedMembersByMonth, ...props };
 }
 
 export default function PrimarySection(
   { ...props }: SectionProps<typeof loader>,
 ) {
-  const { title, subTitle, graph, posts, chat } = { ...BASE_PROPS, ...props };
+  const { title, subTitle, graph, posts, chat, sortedMembersByMonth } = { ...BASE_PROPS, ...props };
 
   return (
     <div class="container max-w-[1280px] mx-auto flex justify-center flex-col w-full py-6 rounded-3xl px-4">
@@ -219,7 +276,7 @@ export default function PrimarySection(
           </div>
 
           <div class="flex flex-row w-full justify-between items-center bg-[#000D0D] rounded-2xl py-2 px-4">
-            <Graph />
+            <Graph props={sortedMembersByMonth} />
           </div>
         </div>
         <div class="flex w-[40%] h-ful flex-col gap-2 items-start justify-start  bg-[#000D0D] rounded-2xl py-2 px-4 max-h-[748px]">

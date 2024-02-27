@@ -3,19 +3,22 @@ import { Chart } from "$fresh_charts/mod.ts";
 import { Chart as ChartIsland } from "$store/islands/ChartIsland.tsx";
 import { ChartColors, transparentize } from "$fresh_charts/utils.ts";
 
-export default function Graph() {
+interface Members {
+  month: string;
+  count: number;
+  total: number;
+}
+
+
+export default function Graph({ props }: { props: Members[] }) {
+
   // Exemplo de dados com rótulos personalizados
-  const rawData = [
-    { label: "Label 1", value: 0 },
-    { label: "Label 2", value: 23 },
-    { label: "Label 3", value: 15 },
-    // ... mais dados ...
-  ];
+  console.log("props", props)
 
   // Formatar os dados para o gráfico
-  const formattedData = rawData.map((entry) => ({
-    x: entry.label,
-    y: entry.value,
+  const formattedData = props.map((entry) => ({
+    x: entry.month,
+    y: entry.total,
   }));
 
   return (

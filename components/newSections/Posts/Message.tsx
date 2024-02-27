@@ -9,19 +9,6 @@ interface Props {
 }
 
 export default function Message({ content, embeds, attachments }: Props) {
-  console.log("embed", embeds);
-
-  const defaultUrl = /https?:\/\/\S+/g;
-  const hasUrl = content.match(defaultUrl);
-
-  if (hasUrl) {
-    const url = hasUrl[0];
-
-    // Remova a URL da string original
-    const textoSemUrl = content.replace(defaultUrl, "").trim();
-  } else {
-    console.log("Nenhuma URL encontrada na string.");
-  }
 
   return (
     <div class="flex flex-col pl-[50px] gap-2 w-full">

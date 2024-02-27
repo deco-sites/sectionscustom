@@ -11,10 +11,9 @@ export default function Member({ name, img, timestamp, flag }: Props) {
   const dataHoraString = timestamp;
   const dataHoraObj = new Date(dataHoraString);
 
-  // Obtém a data
-  const day = dataHoraObj.getDay() < 10
-    ? "0" + dataHoraObj.getDay().toString()
-    : dataHoraObj.getDay();
+  const day = dataHoraObj.getDate() < 10
+    ? "0" + dataHoraObj.getDate().toString()
+    : dataHoraObj.getDate();
   const month = dataHoraObj.getMonth() < 10
     ? "0" + (dataHoraObj.getMonth() + 1)
     : (dataHoraObj.getMonth() + 1);
@@ -22,7 +21,7 @@ export default function Member({ name, img, timestamp, flag }: Props) {
 
   // Obtém a hora
   let hour: number = dataHoraObj.getHours();
-  const min = dataHoraObj.getMinutes();
+  const min = dataHoraObj.getMinutes() < 10 ? "0" + dataHoraObj.getMinutes() : dataHoraObj.getMinutes();
   const ampm = hour < 12 ? "AM" : "PM";
 
   hour = hour % 12;
