@@ -54,3 +54,15 @@
     --dot-progress: 100%
   }
 }
+
+.scrollCustom::-webkit-scrollbar{
+  width: 5px;
+}
+.scrollCustom::-webkit-scrollbar-thumb{
+  background: #50575C;
+  border-radius: 24px;
+  -webkit-border-radius: 24px;
+  -moz-border-radius: 24px;
+  -ms-border-radius: 24px;
+  -o-border-radius: 24px;
+}

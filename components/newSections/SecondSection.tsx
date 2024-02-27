@@ -91,6 +91,13 @@ interface Chat {
   attachments?: Attachment[];
 }
 
+interface MemberGuid {
+  joined_at: string;
+  user: {
+    id: string;
+  };
+}
+
 const BASE_PROPS = {
   title: "Growing community",
   subTitle:
@@ -110,8 +117,9 @@ const BASE_PROPS = {
 export async function loader({ props }: { props: Props }, _req: Request) {
   const token = Deno.env.get("API_TOKEN");
   const server = Deno.env.get("ID_SERVER");
+  const channel = Deno.env.get("ID_CHANNEL");
 
-  const apiUrlMessages = `https://discord.com/api/channels/${server}/messages`;
+  const apiUrlMessages = `https://discord.com/api/channels/${channel}/messages`;
 
   const chat: Chat[] = [];
 
@@ -122,7 +130,7 @@ export async function loader({ props }: { props: Props }, _req: Request) {
     },
   }).then((r) => r.json());
 
-  console.log("res", response);
+  // console.log("res", response);
   response.map((r: Menssage) => {
     const urlImage = r.author.avatar
       ? `https://cdn.discordapp.com/avatars/${r.author.id}/${r.author.avatar}.webp`
@@ -138,6 +146,47 @@ export async function loader({ props }: { props: Props }, _req: Request) {
       attachments: r.attachments,
     });
   });
+
+  const apiUrl = `https://discord.com/api/guilds/${server}/members`;
+
+  const allMembers: Array<MemberGuid> = [];
+  let hasMore = true;
+  let after: string | null = null; // Inicialize como string | null
+
+  try {
+    while (hasMore) {
+      const responseM: Array<MemberGuid> = await fetch(
+        `${apiUrl}?limit=1000${after ? `&after=${after}` : ""}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bot ${token}`,
+          },
+        },
+      ).then((r) => r.json());
+
+      if (responseM) {
+        responseM.forEach((member: MemberGuid) => {
+          allMembers.push({
+            user: { id: member.user.id },
+            joined_at: member.joined_at,
+          });
+        });
+
+        if (responseM.length < 1000) {
+          hasMore = false;
+        } else {
+          after = responseM[responseM.length - 1].user.id;
+        }
+      } else {
+        hasMore = false;
+      }
+    }
+
+    console.log("Todos os membros:", allMembers.length);
+  } catch (error) {
+    console.error("Erro na requisição:", error);
+  }
 
   return { chat, ...props };
 }
@@ -173,16 +222,13 @@ export default function PrimarySection(
             <Graph />
           </div>
         </div>
-        <div class="flex w-[40%] h-ful flex-col gap-2 items-start justify-start  bg-[#000D0D] rounded-2xl py-2 px-4 max-h-[500px]">
+        <div class="flex w-[40%] h-ful flex-col gap-2 items-start justify-start  bg-[#000D0D] rounded-2xl py-2 px-4 max-h-[748px]">
           <h4 class="text-white text-2xl text-start font-semibold">
             {posts.title}
           </h4>
-          <div
-            class="flex flex-col gap-2 pr-4 justify-start items-start bg-gradient-to-b from-[rgba(2, 246, 124, 0)] to-[rgba(2, 246, 124, 0.05)] overflow-y-scroll"
-            style={"::-webkit-scrollbar-thumb: {background-color: red;}"}
-          >
-            {chat.map((chat) => (
-              <>
+          <div class="flex flex-col gap-2 pr-4 justify-start items-start bg-gradient-to-b from-[rgba(2, 246, 124, 0)] to-[rgba(2, 246, 124, 0.05)] overflow-y-scroll scrollCustom w-full">
+            {chat?.map((chat) => (
+              <div class=" py-2 w-full">
                 <Member
                   name={chat.name}
                   img={chat.image}
@@ -194,17 +240,13 @@ export default function PrimarySection(
                   embeds={chat.embeds}
                   attachments={chat.attachments}
                 />
-              </>
+              </div>
             ))}
           </div>
-          {
-            /* // <span class="text-white" dangerouslySetInnerHTML={{ __html: chat.content?.replaceAll("\n", "<br>") || "undefined" }}>
-            // </span> */
-          }
           <ButtonLink
             label={posts.buttonLabel}
             href={posts.buttonHref}
-            classCustom="my-2"
+            classCustom="my-8"
           />
         </div>
       </div>
