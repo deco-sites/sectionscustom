@@ -21,7 +21,9 @@ export default function Member({ name, img, timestamp, flag }: Props) {
 
   // Obtém a hora
   let hour: number = dataHoraObj.getHours();
-  const min = dataHoraObj.getMinutes() < 10 ? "0" + dataHoraObj.getMinutes() : dataHoraObj.getMinutes();
+  const min = dataHoraObj.getMinutes() < 10
+    ? "0" + dataHoraObj.getMinutes()
+    : dataHoraObj.getMinutes();
   const ampm = hour < 12 ? "AM" : "PM";
 
   hour = hour % 12;

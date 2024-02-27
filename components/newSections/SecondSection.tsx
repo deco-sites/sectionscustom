@@ -131,7 +131,7 @@ export async function loader({ props }: { props: Props }, _req: Request) {
     },
   }).then((r) => r.json());
 
-  console.log("chat", response)
+  console.log("chat", response);
 
   // console.log("res", response);
   response.map((r: Menssage) => {
@@ -164,7 +164,8 @@ export async function loader({ props }: { props: Props }, _req: Request) {
   let after: string | null = null;
   let totalMembers = 0;
 
-  const membersByMonth: { [month: string]: { count: number; total: number } } = {};
+  const membersByMonth: { [month: string]: { count: number; total: number } } =
+    {};
   let sortedMembersByMonth: {
     month: string;
     count: number;
@@ -205,7 +206,6 @@ export async function loader({ props }: { props: Props }, _req: Request) {
       }
     }
 
-
     // Agrupar membros por mês
     allMembers.forEach((member, index) => {
       const joinedDate = new Date(member.joined_at);
@@ -216,14 +216,17 @@ export async function loader({ props }: { props: Props }, _req: Request) {
 
         totalMembers--;
 
-        console.log("total", totalMembers)
-        console.log("total", allMembers.length)
+        console.log("total", totalMembers);
+        console.log("total", allMembers.length);
 
         if (membersByMonth[monthKey]) {
           membersByMonth[monthKey].count++;
           membersByMonth[monthKey].total = allMembers.length - totalMembers;
         } else {
-          membersByMonth[monthKey] = { count: 1, total: (totalMembers - allMembers.length) };
+          membersByMonth[monthKey] = {
+            count: 1,
+            total: (totalMembers - allMembers.length),
+          };
         }
       }
     });
@@ -236,9 +239,14 @@ export async function loader({ props }: { props: Props }, _req: Request) {
     }));
 
     // Ordenar o array por data
-    sortedMembersByMonth.sort((a, b) => new Date(a.month).getTime() - new Date(b.month).getTime());
+    sortedMembersByMonth.sort((a, b) =>
+      new Date(a.month).getTime() - new Date(b.month).getTime()
+    );
 
-    console.log("Quantidade de membros por mês em ordem reversa desde 2023:", sortedMembersByMonth);
+    console.log(
+      "Quantidade de membros por mês em ordem reversa desde 2023:",
+      sortedMembersByMonth,
+    );
   } catch (error) {
     console.error("Erro na requisição:", error);
   }
@@ -251,7 +259,10 @@ export async function loader({ props }: { props: Props }, _req: Request) {
 export default function PrimarySection(
   { ...props }: SectionProps<typeof loader>,
 ) {
-  const { title, subTitle, graph, posts, chat, sortedMembersByMonth } = { ...BASE_PROPS, ...props };
+  const { title, subTitle, graph, posts, chat, sortedMembersByMonth } = {
+    ...BASE_PROPS,
+    ...props,
+  };
 
   return (
     <div class="container max-w-[1280px] mx-auto flex justify-center flex-col w-full py-6 rounded-3xl px-4">

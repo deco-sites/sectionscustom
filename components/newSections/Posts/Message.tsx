@@ -9,7 +9,6 @@ interface Props {
 }
 
 export default function Message({ content, embeds, attachments }: Props) {
-
   return (
     <div class="flex flex-col pl-[50px] gap-2 w-full">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
