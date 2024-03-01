@@ -98,5 +98,10 @@ export function Chart<Type extends ChartType>(props: ChartProps<Type>) {
     chartRef.current?.render();
   }, []);
 
-  return <canvas ref={canvasRef} />;
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{ position: "absolute", width: "100%", height: "100%" }}
+    />
+  );
 }

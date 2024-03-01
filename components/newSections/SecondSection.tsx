@@ -216,16 +216,13 @@ export async function loader({ props }: { props: Props }, _req: Request) {
 
         totalMembers--;
 
-        console.log("total", totalMembers);
-        console.log("total", allMembers.length);
-
         if (membersByMonth[monthKey]) {
           membersByMonth[monthKey].count++;
           membersByMonth[monthKey].total = allMembers.length - totalMembers;
         } else {
           membersByMonth[monthKey] = {
             count: 1,
-            total: (totalMembers - allMembers.length),
+            total: allMembers.length,
           };
         }
       }
@@ -243,15 +240,10 @@ export async function loader({ props }: { props: Props }, _req: Request) {
       new Date(a.month).getTime() - new Date(b.month).getTime()
     );
 
-    console.log(
-      "Quantidade de membros por mês em ordem reversa desde 2023:",
-      sortedMembersByMonth,
-    );
   } catch (error) {
     console.error("Erro na requisição:", error);
   }
 
-  console.log("member", sortedMembersByMonth);
 
   return { chat, sortedMembersByMonth, ...props };
 }
@@ -265,7 +257,7 @@ export default function PrimarySection(
   };
 
   return (
-    <div class="container max-w-[1280px] mx-auto flex justify-center flex-col w-full py-6 rounded-3xl px-4">
+    <div class="container max-w-[1280px] mx-auto flex justify-center flex-col w-full py-6 rounded-3xl px-4 bg-black">
       <h2 class="text-5xl lg:text-7xl text-white font-medium text-center mb-9">
         {title}
       </h2>
@@ -286,7 +278,7 @@ export default function PrimarySection(
             <ButtonLink label={graph.buttonLabel} href={graph.buttonHref} />
           </div>
 
-          <div class="flex flex-row w-full justify-between items-center bg-[#000D0D] rounded-2xl py-2 px-4">
+          <div class="flex flex-row w-full justify-between items-center bg-[#000D0D] rounded-2xl py-2 px-4 lg:pr-12 lg:pb-10">
             <Graph props={sortedMembersByMonth} />
           </div>
         </div>
