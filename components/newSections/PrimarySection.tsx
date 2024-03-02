@@ -260,60 +260,63 @@ export default function PrimarySection({ props }: { props: Props }) {
   const { title, subTitle, topics } = { ...BASE_PROPS, ...props };
 
   return (
-    <div class="container max-w-[1280px] mx-auto flex justify-center flex-col w-full py-6 rounded-3xl px-4">
-      <h2 class="text-5xl lg:text-7xl text-white font-medium text-center mb-9">
-        {title}
-      </h2>
-      <span
-        class="text-center text-lg text-[#A1A1AA]"
-        dangerouslySetInnerHTML={{ __html: subTitle }}
-      >
-      </span>
-      <div class="flex w-full flex-row mt-9 xl:gap-16 lg:bg-[#000D0D] rounded-3xl lg:px-3">
-        <div class="w-full lg:w-[28%] flex flex-col lg:gap-5 xl:gap-14 gap-16">
-          {topics.map((topic, indexTopic) => {
-            return (
-              <div class="rounded-3xl lg:gap-4 gap-8 flex flex-col bg-[#000D0D] px-4 py-8 lg:py-2 lg:px-0">
-                <h3 class="text-accent text-2xl font-semibold">
-                  <span class="lg:hidden">{indexTopic + 1 + ". "}</span>
-                  {topic.title}
-                </h3>
-                {topic.itemsTopics.map((itemTopic, index) => (
-                  <ButtonTab
-                    {...itemTopic}
-                    index={index.toString() + indexTopic.toString()}
-                  />
-                ))}
-                {topics.length === (indexTopic + 1) && props.button?.label && (
-                  <ButtonLink
-                    classCustom="lg:hidden flex"
-                    label={props.button?.label}
-                    href={props.button?.href}
-                  />
-                )}
-              </div>
-            );
-          })}
-        </div>
-        <div class="w-3/4 hidden lg:flex flex-col py-8 lg:py-16 lg:mx-6 ">
-          {topics.map((topic, indexTopic) => (
-            topic.itemsTopics.map((itemTopic, index) => (
-              <Article
-                title={itemTopic.title}
-                subTitle={itemTopic.subTitle}
-                content={itemTopic.content}
-                flagTime={itemTopic.flagTime}
-                index={index.toString() + indexTopic.toString()}
+    <div class="w-full h-full bg-[#000]">
+      <div class="container max-w-[1280px] mx-auto flex justify-center flex-col w-full py-6 rounded-3xl px-4">
+        <h2 class="text-5xl lg:text-7xl text-white font-medium text-center mb-9">
+          {title}
+        </h2>
+        <span
+          class="text-center text-lg text-[#A1A1AA]"
+          dangerouslySetInnerHTML={{ __html: subTitle }}
+        >
+        </span>
+        <div class="flex w-full flex-row mt-9 xl:gap-16 lg:bg-[#000D0D] rounded-3xl lg:px-3">
+          <div class="w-full lg:w-[28%] flex flex-col lg:gap-5 xl:gap-14 gap-16">
+            {topics.map((topic, indexTopic) => {
+              return (
+                <div class="rounded-3xl lg:gap-4 gap-8 flex flex-col bg-[#000D0D] px-4 py-8 lg:py-2 lg:px-0">
+                  <h3 class="text-accent text-2xl font-semibold">
+                    <span class="lg:hidden">{indexTopic + 1 + ". "}</span>
+                    {topic.title}
+                  </h3>
+                  {topic.itemsTopics.map((itemTopic, index) => (
+                    <ButtonTab
+                      {...itemTopic}
+                      index={index.toString() + indexTopic.toString()}
+                    />
+                  ))}
+                  {topics.length === (indexTopic + 1) && props.button?.label &&
+                    (
+                      <ButtonLink
+                        classCustom="lg:hidden flex"
+                        label={props.button?.label}
+                        href={props.button?.href}
+                      />
+                    )}
+                </div>
+              );
+            })}
+          </div>
+          <div class="w-3/4 hidden lg:flex flex-col py-8 lg:py-16 lg:mx-6 ">
+            {topics.map((topic, indexTopic) => (
+              topic.itemsTopics.map((itemTopic, index) => (
+                <Article
+                  title={itemTopic.title}
+                  subTitle={itemTopic.subTitle}
+                  content={itemTopic.content}
+                  flagTime={itemTopic.flagTime}
+                  index={index.toString() + indexTopic.toString()}
+                />
+              ))
+            ))}
+            {props.button?.label && (
+              <ButtonLink
+                classCustom="hidden lg:flex"
+                label={props.button?.label}
+                href={props.button?.href}
               />
-            ))
-          ))}
-          {props.button?.label && (
-            <ButtonLink
-              classCustom="hidden lg:flex"
-              label={props.button?.label}
-              href={props.button?.href}
-            />
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>

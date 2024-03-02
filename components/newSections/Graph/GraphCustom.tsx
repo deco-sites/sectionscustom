@@ -13,6 +13,11 @@ export interface Props {
 }
 
 export default function GraphCustom({ member }: Props) {
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent,
+    );
+
   const formattedData = member.map((entry) => ({
     x: entry.month,
     y: entry.total,
@@ -43,7 +48,7 @@ export default function GraphCustom({ member }: Props) {
               ticks: {
                 color: "#fff",
                 font: {
-                  size: 24,
+                  size: isMobile ? 16 : 24,
                 },
                 // Include a dollar sign in the ticks
                 callback: function (value, index, ticks) {
@@ -68,8 +73,8 @@ export default function GraphCustom({ member }: Props) {
                 const gradient = context.chart.ctx.createLinearGradient(
                   0,
                   0,
-                  300,
-                  500,
+                  isMobile ? 200 : 300,
+                  isMobile ? 300 : 500,
                 );
                 gradient.addColorStop(0, "#02F67C");
                 gradient.addColorStop(1, "rgba(0, 225, 0, 0)"); // Cor no final (transparente)

@@ -19,7 +19,7 @@ export default function Graph({ props }: { props: Members[] }) {
   }));
 
   return (
-    <div class="p-4 mx-auto w-full max-w-screen-md relative min-h-[600px] ">
+    <div class="mx-auto w-full max-w-screen-md relative min-h-[380px] md:min-h-[575px] rounded-3xl ">
       <div class="absolute hidden w-[60px] h-[95%] bg-black flex-col justify-between items-center top-0 left-0 z-10 ">
         <ul class="flex-col-reverse flex items-center justify-between h-full text-white">
           {formattedData.map((entry) => (
