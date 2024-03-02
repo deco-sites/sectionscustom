@@ -5,9 +5,12 @@ interface Props {
   img: string;
   timestamp: string;
   flag: string;
+  teamDeco?: boolean;
 }
 
-export default function Member({ name, img, timestamp, flag }: Props) {
+export default function Member(
+  { name, img, timestamp, flag, teamDeco = false }: Props,
+) {
   const dataHoraString = timestamp;
   const dataHoraObj = new Date(dataHoraString);
 
@@ -36,6 +39,7 @@ export default function Member({ name, img, timestamp, flag }: Props) {
         <span class="text-white font-bold text-xl leading-3">
           {name}
         </span>
+        {teamDeco && <div class="w-[30px] h-[30px] bg-[#fff]"></div>}
         <Image src={flag} width={8} height={8} />
         <span class="text-[#A1A1AA] text-sm font-normal">
           {day + "/" + month + "/" + year} {hour + ":" + min + " " + ampm}

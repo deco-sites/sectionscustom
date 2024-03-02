@@ -65,6 +65,8 @@ export interface Attachment {
   proxy_url: string;
   content_type: string;
   placeholder: string;
+  width: number;
+  height: number;
 }
 interface Menssage {
   id: string;
@@ -90,6 +92,7 @@ interface Chat {
   image: string;
   embeds?: Embed[];
   attachments?: Attachment[];
+  team_deco?: boolean;
 }
 
 interface MemberGuid {
@@ -131,13 +134,32 @@ export async function loader({ props }: { props: Props }, _req: Request) {
     },
   }).then((r) => r.json());
 
-  console.log("chat", response);
-
   // console.log("res", response);
-  response.map((r: Menssage) => {
-    const urlImage = r.author.avatar
-      ? `https://cdn.discordapp.com/avatars/${r.author.id}/${r.author.avatar}.webp`
-      : "https://discord.com/assets/1697e65656e69f0dbdbd.png";
+  response.map(async (r: Menssage) => {
+    function getImage(r: Menssage) {
+      return r.author.avatar
+        ? `https://cdn.discordapp.com/avatars/${r.author.id}/${r.author.avatar}.webp`
+        : "https://discord.com/assets/1697e65656e69f0dbdbd.png";
+    }
+
+    async function getRole(r: Menssage) {
+      const member: MemberGuid = await fetch(
+        `https://discord.com/api/guilds/${server}/members/${r.author.id}?limit=100`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bot ${token}`,
+          },
+        },
+      ).then((r) => r.json());
+
+      return member;
+    }
+
+    const [urlImage, member] = await Promise.all([
+      getImage(r),
+      getRole(r),
+    ]);
 
     if (r.type !== 18) {
       chat.push({
@@ -148,13 +170,14 @@ export async function loader({ props }: { props: Props }, _req: Request) {
         image: urlImage,
         embeds: r.embeds,
         attachments: r.attachments,
+        // team_deco: member.roles?.includes("1032349015234334800")
       });
     }
   });
-
   interface MemberGuid {
     user: { id: string };
     joined_at: string; // Certifique-se de que joined_at seja do tipo string
+    roles?: string[];
   }
 
   const apiUrl = `https://discord.com/api/guilds/${server}/members`;
@@ -239,11 +262,11 @@ export async function loader({ props }: { props: Props }, _req: Request) {
     sortedMembersByMonth.sort((a, b) =>
       new Date(a.month).getTime() - new Date(b.month).getTime()
     );
-
   } catch (error) {
     console.error("Erro na requisição:", error);
   }
 
+  console.log("chat", chat);
 
   return { chat, sortedMembersByMonth, ...props };
 }
@@ -294,6 +317,7 @@ export default function PrimarySection(
                   img={chat.image}
                   flag={""}
                   timestamp={chat.timestamp}
+                  teamDeco={chat.team_deco}
                 />
                 <Message
                   content={chat.content || ""}

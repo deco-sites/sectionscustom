@@ -92,32 +92,12 @@ export default function Message({ content, embeds, attachments }: Props) {
             : (null)}
         </div>
       ))}
-      {embeds && embeds.map((embed) => {
-        return (
-          <div class="flex flex-col gap-2 px-2 my-2 border-l-2 border-l-[#02F67C]">
-            <span class="text-lg text-[#a1a1aaa6]">{embed.provider?.name}</span>
-            <span class="text-lg text-[#A1A1AA]">{embed.author?.name}</span>
-            <span class="text-lg text-[#ffff]">{embed?.title}</span>
-            <iframe
-              width="350"
-              height="250"
-              class="w-full h-[revert-layout]"
-              src={embed.video?.url}
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            >
-            </iframe>
-          </div>
-        );
-      })}
       {attachments && attachments.map((img) => {
         return (
           <Image
-            width={350}
-            height={250}
-            class="w-full h-auto object-cover rounded-md"
+            width={img.width}
+            height={img.height}
+            class="w-full h-auto object-cover rounded-md max-w-[350px]"
             src={img.url}
             alt={img.filename}
           />
