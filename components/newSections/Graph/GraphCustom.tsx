@@ -1,7 +1,4 @@
-import { Chart } from "$fresh_charts/mod.ts";
 import { Chart as ChartIsland } from "$store/islands/ChartIsland.tsx";
-import { ChartColors, transparentize } from "$fresh_charts/utils.ts";
-
 export interface Member {
   month: string;
   count: number;

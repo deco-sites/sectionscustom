@@ -1,8 +1,4 @@
-import { Head } from "$fresh/runtime.ts";
-import { Chart } from "$fresh_charts/mod.ts";
-import { Chart as ChartIsland } from "$store/islands/ChartIsland.tsx";
-import { ChartColors, transparentize } from "$fresh_charts/utils.ts";
-import Teste from "$store/islands/Graph.tsx";
+import GraphCustom from "$store/islands/Graph.tsx";
 export interface Members {
   month: string;
   count: number;
@@ -31,7 +27,7 @@ export default function Graph({ props }: { props: Members[] }) {
         </ul>
       </div>
       <div>
-        <Teste member={props} />
+        <GraphCustom member={props} />
       </div>
     </div>
   );
