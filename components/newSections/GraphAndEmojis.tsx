@@ -16,93 +16,13 @@ export interface Props {
    * @format html
    */
   subTitle: string;
-
   graph: {
     title: string;
-    buttonLabel: string;
-    buttonHref: string;
-  };
-  posts: {
-    title: string;
-    buttonLabel: string;
-    buttonHref: string;
-    quantity: number;
+    tokenDiscord: string;
+    IdGuild:string;
+
   };
   emojiCommunity: EmojisCommunityProps;
-}
-
-export interface Embed {
-  type: string;
-  url: string;
-  title: string;
-  description: string;
-  color: number;
-  author: {
-    name: string;
-    url: string;
-  };
-  provider: {
-    name: string;
-    url: string;
-  };
-  thumbnail: {
-    url: string;
-    proxy_url: string;
-    placeholder: string;
-  };
-  video: {
-    url: string;
-    placeholder: string;
-  };
-  mentions: {
-    id: string;
-    username: string;
-    avatar: string;
-  };
-}
-
-export interface Attachment {
-  id: string;
-  filename: string;
-  url: string;
-  proxy_url: string;
-  content_type: string;
-  placeholder: string;
-  width: number;
-  height: number;
-}
-interface Menssage {
-  id: string;
-  type: number;
-  author: {
-    id: string;
-    username: string;
-    avatar?: string;
-    global_name: string;
-  };
-  content: string;
-  timestamp: string;
-  embeds: Embed[];
-  attachments: Attachment[];
-}
-
-interface Chat {
-  id?: string;
-  avatar?: string;
-  name: string;
-  content?: string;
-  timestamp: string;
-  image: string;
-  embeds?: Embed[];
-  attachments?: Attachment[];
-  team_deco?: boolean;
-}
-
-interface MemberGuid {
-  joined_at: string;
-  user: {
-    id: string;
-  };
 }
 
 const BASE_PROPS = {
@@ -122,61 +42,9 @@ const BASE_PROPS = {
 };
 
 export async function loader({ props }: { props: Props }, _req: Request) {
-  const token = Deno.env.get("API_TOKEN");
-  const server = Deno.env.get("ID_SERVER");
-  const channel = Deno.env.get("ID_CHANNEL");
+  const token = props.graph.tokenDiscord
+  const server = props.graph.IdGuild
 
-  const apiUrlMessages = `https://discord.com/api/channels/${channel}/messages`;
-
-  const chat: Chat[] = [];
-
-  const response = await fetch(apiUrlMessages + "?limit=10", {
-    method: "GET",
-    headers: {
-      Authorization: `Bot ${token}`,
-    },
-  }).then((r) => r.json());
-
-  // console.log("res", response);
-  response.map(async (r: Menssage) => {
-    function getImage(r: Menssage) {
-      return r.author.avatar
-        ? `https://cdn.discordapp.com/avatars/${r.author.id}/${r.author.avatar}.webp`
-        : "https://discord.com/assets/1697e65656e69f0dbdbd.png";
-    }
-
-    async function getRole(r: Menssage) {
-      const member: MemberGuid = await fetch(
-        `https://discord.com/api/guilds/${server}/members/${r.author.id}?limit=100`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bot ${token}`,
-          },
-        },
-      ).then((r) => r.json());
-
-      return member;
-    }
-
-    const [urlImage, member] = await Promise.all([
-      getImage(r),
-      getRole(r),
-    ]);
-
-    if (r.type !== 18) {
-      chat.push({
-        id: r.id,
-        name: r.author.global_name,
-        content: r.content,
-        timestamp: r.timestamp,
-        image: urlImage,
-        embeds: r.embeds,
-        attachments: r.attachments,
-        // team_deco: member.roles?.includes("1032349015234334800")
-      });
-    }
-  });
   interface MemberGuid {
     user: { id: string };
     joined_at: string; // Certifique-se de que joined_at seja do tipo string
@@ -269,7 +137,7 @@ export async function loader({ props }: { props: Props }, _req: Request) {
     console.error("Erro na requisição:", error);
   }
 
-  return { chat, sortedMembersByMonth, ...props };
+  return {sortedMembersByMonth, ...props };
 }
 
 export default function PrimarySection(
@@ -279,8 +147,6 @@ export default function PrimarySection(
     title,
     subTitle,
     graph,
-    posts,
-    chat,
     sortedMembersByMonth,
     emojiCommunity,
   } = {
