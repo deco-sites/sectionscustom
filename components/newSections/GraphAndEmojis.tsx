@@ -19,8 +19,7 @@ export interface Props {
   graph: {
     title: string;
     tokenDiscord: string;
-    IdGuild:string;
-
+    IdGuild: string;
   };
   emojiCommunity: EmojisCommunityProps;
 }
@@ -42,8 +41,8 @@ const BASE_PROPS = {
 };
 
 export async function loader({ props }: { props: Props }, _req: Request) {
-  const token = props.graph.tokenDiscord
-  const server = props.graph.IdGuild
+  const token = props.graph.tokenDiscord;
+  const server = props.graph.IdGuild;
 
   interface MemberGuid {
     user: { id: string };
@@ -137,7 +136,7 @@ export async function loader({ props }: { props: Props }, _req: Request) {
     console.error("Erro na requisição:", error);
   }
 
-  return {sortedMembersByMonth, ...props };
+  return { sortedMembersByMonth, ...props };
 }
 
 export default function PrimarySection(
