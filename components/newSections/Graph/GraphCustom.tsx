@@ -21,7 +21,7 @@ export default function GraphCustom({ member }: Props) {
   }));
 
   return (
-    <div>
+    <div class="cursorCustom">
       <ChartIsland
         type="line"
         options={{
@@ -29,6 +29,37 @@ export default function GraphCustom({ member }: Props) {
           maintainAspectRatio: false,
           interaction: { mode: "index", intersect: false },
           plugins: {
+            tooltip: {
+              titleFont: {
+                size: 18
+              },
+              titleAlign: "center",
+              displayColors: false,
+              bodyAlign: "center",
+              bodyColor: "#A1A1AA",
+              bodyFont: {
+                size: 14
+              },
+              callbacks: {
+                title: function (context) {
+                  const value: string = context[0].formattedValue
+                  const strings: Array<string> = value.substring(0, 2).split('')
+                  return `${strings[0] + "." + strings[1]}K Members`;
+                },
+                label: function (context) {
+
+                  const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+
+                  let title = context.label
+                  const labels = title.split("-")
+                  const index = parseInt(labels[1]) - 1;
+
+                  title = meses[index] + " " + labels[0]
+
+                  return title;
+                }
+              }
+            },
             subtitle: {
               display: false,
             },
@@ -49,19 +80,19 @@ export default function GraphCustom({ member }: Props) {
                 },
                 // Include a dollar sign in the ticks
                 callback: function (value, index, ticks) {
-                  return `${
-                    value && typeof value === "number" && value / 1000
-                  }K`;
+                  return `${value && typeof value === "number" && value / 1000
+                    }K`;
                 },
               },
             },
           },
-        }}
+        }
+        }
         data={{
           labels: formattedData.map((entry) => entry.x),
           datasets: [
             {
-              label: "teste",
+              label: "Members",
               data: formattedData.map((entry) => entry.y),
               fill: true,
               borderColor: " #02F67C",

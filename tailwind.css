@@ -66,3 +66,7 @@
   -ms-border-radius: 24px;
   -o-border-radius: 24px;
 }
+
+.cursorCustom{
+  cursor: url(/cursor.cur), default;
+}
