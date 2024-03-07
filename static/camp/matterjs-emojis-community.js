@@ -41,7 +41,7 @@ var render = Render.create({
     element: panel,
     engine: engine,
     options: {
-        width: 400,
+        width: WIDTH,
         height: HEIGHT,
         showAngleIndicator: false,
         background: 'transparent',
@@ -62,14 +62,14 @@ for (let i = 0; i < buttons.length; i++) {
     const radius = 24;
 
     // Generate random positions for each element within defined margins
-    const posY = -400; // Position above the screen
-    const posX = WIDTH / 2;
+    const posY = Math.random() * -HEIGHT; // Position above the screen
+    const posX = Math.random() * WIDTH;
 
     const body = Bodies.rectangle(
         posX,
         posY,
-        elem.clientWidth + 5,
-        elem.clientHeight + 5,
+        elem.clientWidth,
+        elem.clientHeight,
         {
             render: { visible: false },
             restitution: 0.4, gravity: .8, friction: 1, density: 1, chamfer: { radius },
@@ -85,11 +85,11 @@ for (let i = 0; i < buttons.length; i++) {
 
 const walls = [
     // Base
-    Bodies.rectangle(WIDTH / 2, HEIGHT, WIDTH * 2, 10, { isStatic: true, render: { visible: false, fillStyle: '#3498db', strokeStyle: '#2980b9', lineWidth: 2 } }),
+    Bodies.rectangle(WIDTH, HEIGHT, WIDTH * 2, 10, { isStatic: true, render: { visible: false, fillStyle: '#3498db', strokeStyle: '#2980b9', lineWidth: 2 } }),
     // Left side
-    Bodies.rectangle(0, HEIGHT / 2, 10, HEIGHT * 2, { isStatic: true, render: { visible: false, fillStyle: '#3498db', strokeStyle: '#2980b9', lineWidth: 2 } }),
+    Bodies.rectangle(0, HEIGHT, 10, HEIGHT * 2, { isStatic: true, render: { visible: false, fillStyle: '#3498db', strokeStyle: '#2980b9', lineWidth: 2 } }),
     // Right side
-    Bodies.rectangle(WIDTH, HEIGHT / 2, 10, HEIGHT * 2, { isStatic: true, render: { visible: false, fillStyle: '#3498db', strokeStyle: '#2980b9', lineWidth: 2 } }),
+    Bodies.rectangle(WIDTH, HEIGHT, 10, HEIGHT * 2, { isStatic: true, render: { visible: false, fillStyle: '#3498db', strokeStyle: '#2980b9', lineWidth: 2 } }),
 ];
 // Add walls
 Composite.add(world, walls);
