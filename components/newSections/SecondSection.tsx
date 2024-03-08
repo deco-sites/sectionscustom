@@ -237,7 +237,7 @@ export async function loader({ props }: { props: Props }, _req: Request) {
       if (year >= 2023) {
         const monthKey = `${joinedDate.getMonth() + 1}-${year}`;
 
-        console.log("month", monthKey)
+        console.log("month", monthKey);
         totalMembers--;
 
         if (membersByMonth[monthKey]) {
