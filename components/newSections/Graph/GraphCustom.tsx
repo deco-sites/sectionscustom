@@ -43,7 +43,9 @@ export default function GraphCustom({ member }: Props) {
               callbacks: {
                 title: function (context) {
                   const value: number = context[0].parsed.y;
-                  const strings = value.toString().replaceAll(".", "").split("");
+                  const strings = value.toString().replaceAll(".", "").split(
+                    "",
+                  );
                   return `${strings[0] + "." + strings[1]}K Members`;
                 },
                 label: function (context) {
@@ -92,8 +94,9 @@ export default function GraphCustom({ member }: Props) {
                 },
                 // Include a dollar sign in the ticks
                 callback: function (value, index, ticks) {
-                  return `${value && typeof value === "number" && value / 1000
-                    }K`;
+                  return `${
+                    value && typeof value === "number" && value / 1000
+                  }K`;
                 },
               },
             },

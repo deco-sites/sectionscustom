@@ -275,7 +275,7 @@ export default function PrimarySection({ props }: { props: Props }) {
             {topics.map((topic, indexTopic) => {
               return (
                 <div class="rounded-3xl lg:gap-4 gap-8 flex flex-col bg-[#000D0D] px-4 py-8 lg:py-2 lg:px-0">
-                  <h3 class="text-accent text-2xl font-semibold">
+                  <h3 class="text-[#02F67C] text-2xl font-semibold">
                     <span class="lg:hidden">{indexTopic + 1 + ". "}</span>
                     {topic.title}
                   </h3>

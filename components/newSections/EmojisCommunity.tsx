@@ -49,11 +49,11 @@ export default function EmojisCommunity({ buttons, title, button }: Props) {
               id="emojis-community"
               class="h-full w-full absolute top-0 left-0"
             >
-              <div class="absolute h-full z-[15] opacity-0 w-full top-0 left-0">
+              <div class="absolute h-full opacity-0 w-full top-0 left-0">
               </div>
               {buttons.map((button) => <Emoji {...button} />)}
             </div>
-            <div class="absolute z-10 top-16 text-[#fff] text-2xl md:text-3xl text-center w-full flex flex-col gap-3 z-">
+            <div class="absolute z-[30] top-16 text-[#fff] text-2xl md:text-3xl text-center w-full flex flex-col gap-3">
               <span class="mx-5" dangerouslySetInnerHTML={{ __html: title }}>
               </span>
               <ButtonLink
